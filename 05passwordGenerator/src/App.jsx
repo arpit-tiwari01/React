@@ -7,6 +7,7 @@ function App() {
   const [numberAllowed, setNumberAllowed] = useState(false)
   const [charAllowed, setCharAllowed] = useState(false)
   const [password, setPassword] = useState("")
+  const [isCopied, setIsCopied] = useState(false) // new state variable
 
   //useRef hook
   const passwordRef = useRef(null)
@@ -30,12 +31,18 @@ function App() {
   }, [length, numberAllowed, charAllowed, setPassword])
 
   //copy password to clipboard
-    const copyPasswordToClipboard = useCallback(() => {
+  const copyPasswordToClipboard = useCallback(() => {
     passwordRef.current?.select()
-  window.navigator.clipboard.writeText(password)
- }, [password])
-  
- //useEffect hook
+    window.navigator.clipboard.writeText(password)
+    setIsCopied(true) // set isCopied to true when password is copied
+
+    // set isCopied to false after 2 seconds
+    setTimeout(() => {
+      setIsCopied(false) // reset isCopied to false after 2 seconds
+    }, 2000)
+  }, [password])
+
+  //useEffect hook
   useEffect(() => {
     passwordGenerator()
   }, [length, numberAllowed, charAllowed, passwordGenerator])
@@ -56,8 +63,10 @@ function App() {
           />
           <button
             onClick={copyPasswordToClipboard}
-            className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0'
-          >copy</button>
+            className={`outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0 ${isCopied ? 'bg-green-500' : ''}`} // change button color when isCopied is true
+          >
+            {isCopied ? 'Copied!' : 'Copy'}
+          </button>
         </div>
         <div className='flex text-sm gap-x-2'>
           <div className='flex item-center gap-x-1'>
