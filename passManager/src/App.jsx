@@ -1,7 +1,15 @@
+import Navbar from "./component/Navbar";
+import Manager from "./component/Manager";
+
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+
+      <>
+      <Navbar/>
+      <Manager/>
+      <h1>hii Arpit</h1>
+      </>
+      
+    
   )
 }
